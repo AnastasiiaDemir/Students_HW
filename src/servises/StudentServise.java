@@ -1,9 +1,6 @@
 package servises;
-
 import db.IDbExecutor;
 import db.MySqlDbExecutor;
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -21,6 +18,39 @@ public class StudentServise {
             }
     }
 
+    public void createSchema(){
+
+        String sqlCommand = "CREATE TABLE IF NOT EXISTS student (" +
+                "Id INT PRIMARY KEY AUTO_INCREMENT," +
+                "Fio VARCHAR(45)," +
+                "Sex INT," +
+                "IdGroup INT)";
+
+        iDbExecutor.executeUpdate(sqlCommand);
+        iDbExecutor.close();
+    }
+
+    public void fillSchema(){
+        String queryStudent = ("INSERT INTO student(Fio, Sex, IdGroup) VALUES " +
+                "('Пушкин Александр Сергеевич', 0, 1)," +
+                "('Есенин Сергей Александрович', 0, 1)," +
+                "('Маяковский Владимир Владимирович', 0, 1)," +
+                "('Бунин Иван Алексеевич', 0, 2)," +
+                "('Гиппиус Зинаида Николаевна', 1, 2)," +
+                "('Тютчев Федор Иванович', 0, 2)," +
+                "('Ахмадулина Белла Ахатовна', 1, 2)," +
+                "('Гоголь Николай Васильевич', 0, 2)," +
+                "('Асадов Эдуард Аркадьевич', 0, 3)," +
+                "('Толстой Алексей Константинович', 0, 3)," +
+                "('Ахматова Анна Андреевна', 1, 3)," +
+                "('Цветаева Марина Ивановна', 1, 3)," +
+                "('Грибоедов Александр Сергеевич', 0, 3)," +
+                "('Лермонтов Михаил Юрьевич', 0, 3)," +
+                "('Тургенев Иван Сергеевич', 0, 3)");
+
+        iDbExecutor.executeUpdate(queryStudent);
+        iDbExecutor.close();
+    }
     public void printAllStudentsGroupCurator(){
         ResultSet resultSet = iDbExecutor.execute("select s.fio, sg.name, c.fio  from students.student s left join students.group1 sg on s.idGroup = sg.id left join students.curator c on sg.idCurator = c.id");
         try {
@@ -51,7 +81,6 @@ public class StudentServise {
         }
 
     }
-
 
     public void printAllFemaleStudents(){
         ResultSet resultSet = iDbExecutor.execute("select id, fio, sex, idGroup from student s where s.sex = 1");

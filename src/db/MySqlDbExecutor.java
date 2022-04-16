@@ -10,7 +10,6 @@ public class MySqlDbExecutor implements IDbExecutor {
 
     private static Connection connect = null;
     private static Statement statement = null;
-
     private IReadProperty<Properties> readerProps;
     private Properties properties;
 
@@ -19,26 +18,20 @@ public class MySqlDbExecutor implements IDbExecutor {
         properties = readerProps.read();
     }
 
-
     @Override
     public ResultSet execute(String sqlRequest) {
-
-
         ResultSet resultSet = null;
-
         try {
             connect = DriverManager.getConnection(
                     properties.getProperty("url") + "/" + properties.getProperty("db_name"),
                     properties.getProperty("username"),
                     properties.getProperty("password")
             );
-
             statement = connect.createStatement();
             resultSet = statement.executeQuery(sqlRequest);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return resultSet;
     }
 
@@ -51,7 +44,6 @@ public class MySqlDbExecutor implements IDbExecutor {
                     properties.getProperty("username"),
                     properties.getProperty("password")
             );
-
             statement = connect.createStatement();
             rows = statement.executeUpdate(sqlUpdate);
         } catch (SQLException ex) {
